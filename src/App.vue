@@ -12,19 +12,7 @@
     <v-footer color="#634379">
       <v-container class="theme-max-width">
 
-          <v-card>
-            <v-card-title class="justify-center">
-              <v-avatar>
-                <img src="https://hsto.org/getpro/moikrug/uploads/user/100/045/068/3/avatar/medium_0a1f9d108ffbfe97f221f6c74418a166.jpg" alt="">
-              </v-avatar>
-                <div class="d-flex flex-column pl-2">
-                  <span>Evgeny Falaleev</span>
-                  <a class="github-link" href="https://github.com/IDigle1/">github.com/IDigle1</a>
-                  
-                </div>
-            </v-card-title>
-            
-          </v-card>
+          <user-card />
       </v-container>
       
     </v-footer>
@@ -34,17 +22,18 @@
 <script>
 import { mapActions } from 'vuex';
 import PackageList from './components/PackageList.vue';
+import UserCard from './components/UserCard.vue';
 import VHeader from './components/VHeader.vue';
 export default {
   name: "App",
   components: {
     PackageList,
-    VHeader
+    VHeader,
+    UserCard
   },
 
   data: () => ({
-      search: 'express',
-      
+      search: '',
   }),
 
   methods: {
