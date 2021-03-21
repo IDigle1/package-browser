@@ -4,9 +4,8 @@
             <v-row :no-gutters="true">
                 <v-col class="pt-5 pb-5" cols="12">
                     <v-text-field 
+                        v-model="search"
                         hide-details="true"
-                        :value="value"
-                        @input="updateValue($event.target.value)"
                         @keydown.enter="getSearch()"
                         placeholder="type a package name"
                         solo 
@@ -18,18 +17,27 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
     name: 'VHeader',
-    props: {
-        value: String
-    },
+    data: () => ({
+        search: '',
+    }),
     methods: {
         updateValue(value) {
+            console.log(value);
             this.$emit('update-value', value);
         },
 
+        ...mapActions({
+            searchPackage: 'api/searchPackage',
+            request: 'request'
+            }),
         getSearch() {
-            this.$emit('get-search');
+            this.searchPackage({
+                query: this.search
+            });
         }
     }
 }

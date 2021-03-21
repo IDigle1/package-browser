@@ -1,12 +1,13 @@
 <template>
     <div>
-        <v-card class="package-item" :loading="cardLoading" elevation="2" @click="showInfo(name, version)">
+        <v-card class="package-item" :loading="cardLoading" elevation="2" @click.stop="showInfo(name, version)">
             <template slot="progress">
                 <v-progress-linear
                     color="#9b59b6"
                     indeterminate
                 />
             </template>
+
             <v-card-title>
                 <span>{{ name }}</span> 
                 <v-chip
@@ -38,18 +39,15 @@
                     <div class="mb-5">
                         {{ description }}
                     </div>
-
                     <div class="mb-5" v-if="packageStats">
                         <span class="block-title">Package Usage: </span>
                         <span>{{ packageStats.total }}</span>
                     </div>
-
                     <files-list v-if="packageFiles" :files="packageFiles.files"/>
                 </v-card-text>
 
                 <v-card-actions>
                     <v-spacer />
-
                     <v-btn
                         color="#9b59b6"
                         text
@@ -66,13 +64,15 @@
 <script>
 import { mapActions } from 'vuex'
 import FilesList from './FilesList.vue';
+
 export default {
   components: { FilesList },
     name: "PackageItem",
     props: {
         name: String,
         version: String,
-        description: String,
+        description: String
+        
     },
     data() {
         return {
@@ -80,7 +80,7 @@ export default {
             packageVersions: null,
             packageStats: null,
             packageFiles: null,
-            cardLoading: false
+            cardLoading: false,
         }
     },
     methods: {

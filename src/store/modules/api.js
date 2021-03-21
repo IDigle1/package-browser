@@ -3,19 +3,19 @@ const DEFAULT_URL_JSDELIVR = "https://data.jsdelivr.com/v1/package/npm/";
 const state = () => ({
     packages: null,
     pageSize: 10,
-    page: 0,
+    currentPage: 0,
     lastQuery: '',
-    packagInfo: null
 })
 
 const getters = {
+    getFrom(state) {
+
+        return state.pageSize * state.currentPage;
+    },
+
     getPackages(state) {
         return state.packages;
     },
-
-    getPackageInfo(state) {
-        return state.packageInfo;
-    }
 }
 
 const mutations = {
@@ -31,39 +31,33 @@ const mutations = {
         state.lastQuery = query;
     },
 
-    changePage(state, page) {
-        state.page = page;
+    changePage(state, currentPage) {
+        state.currentPage = currentPage;
     },
 
     resetPage(state) {
-        state.page = 0;
+        state.currentPage = 0;
     },
-
-    updatePackageInfo(state, packagInfo) {
-        state.packagInfo = packagInfo;
-    }
 }
 
 const actions = {
-    async searchPackage({commit, state}, settings) {
+    async searchPackage({commit, state, getters }, payloads) {
         commit('resetPackages');
         
-        if (settings.query) {
-            commit('changeQuery', settings.query);
+        if (payloads.query) {
+            commit('changeQuery', payloads.query);
             commit('resetPage');
         }
 
-        if (settings.page) {
-            commit('changePage', settings.page - 1);
+        if (payloads.currentPage) {
+            commit('changePage', payloads.currentPage - 1);
         }
-
-        const from = state.pageSize * state.page;
 
         const response = await this.dispatch('request', {
             url: 'https://registry.npmjs.org/-/v1/search',
             params: {
                 size: state.pageSize,
-                from,
+                from: getters.getFrom,
                 text: state.lastQuery
             }
         });
@@ -91,28 +85,6 @@ const actions = {
         
         return response.data;
     },
-
-    // async getPackageInfo(context, payloads) {
-        
-    //     let url = '';
-
-    //     if (payloads.dataType === 'versions') {
-    //         url = `${DEFAULT_URL_JSDELIVR}${payloads.packageName}`;
-    //     }
-
-    //     if (payloads.dataType === 'stats') {
-    //         url = `${DEFAULT_URL_JSDELIVR}${payloads.packageName}/stats`;
-    //     }
-
-    //     if (payloads.dataType === 'files') {
-    //         url = `${DEFAULT_URL_JSDELIVR}${payloads.packageName}@${payloads.version}`;
-    //     }
-
-    //     const response = await fetch(url);
-    //     const packageInfo = await response.json();
-
-    //     return packageInfo;
-    // },
 }
 
 export default {

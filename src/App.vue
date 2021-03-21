@@ -1,9 +1,6 @@
 <template>
   <v-app>
-    <v-header 
-      v-model="search"
-      @get-search="getSearch()"
-    />
+    <v-header />
     
     <v-main>
       <package-list />
@@ -11,16 +8,13 @@
     
     <v-footer color="#634379">
       <v-container class="theme-max-width">
-
           <user-card />
       </v-container>
-      
     </v-footer>
   </v-app>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import PackageList from './components/PackageList.vue';
 import UserCard from './components/UserCard.vue';
 import VHeader from './components/VHeader.vue';
@@ -30,22 +24,6 @@ export default {
     PackageList,
     VHeader,
     UserCard
-  },
-
-  data: () => ({
-      search: '',
-  }),
-
-  methods: {
-    ...mapActions({
-      searchPackage: 'api/searchPackage',
-      request: 'request'
-    }),
-    getSearch() {
-      this.searchPackage({
-        query: this.search
-      });
-    }
   }
 };
 </script>

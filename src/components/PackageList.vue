@@ -24,7 +24,7 @@
                     color="#9b59b6" 
                     :length="getPagesCount" 
                     :total-visible="8"
-                    v-model="page" 
+                    v-model="currentPage" 
                 />
             </v-container>
         </v-container>
@@ -41,7 +41,7 @@ export default {
     },
     data: () => ({
         showPreloader: false,
-        page: 1
+        currentPage: 1
     }),
 
     methods: {
@@ -61,9 +61,9 @@ export default {
     },
 
     watch: {
-        page() {
+        currentPage() {
             this.searchPackage({
-                page: this.page
+                currentPage: this.currentPage
             });
         }
     }
