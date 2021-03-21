@@ -32,7 +32,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import PackageItem from '@/components/PackageItem';
+import PackageItem from './PackageItem';
 
 export default {
     name: "PackageList",
