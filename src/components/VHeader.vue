@@ -6,7 +6,7 @@
                     <v-text-field 
                         v-model="search"
                         hide-details="true"
-                        @keydown.enter="getSearch()"
+                        @keydown.enter="sendSearchQuery()"
                         placeholder="type a package name"
                         solo 
                     />
@@ -34,7 +34,7 @@ export default {
             searchPackage: 'api/searchPackage',
             request: 'request'
             }),
-        getSearch() {
+        sendSearchQuery() {
             this.searchPackage({
                 query: this.search
             });
@@ -42,7 +42,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>
