@@ -1,6 +1,11 @@
 <template>
-    <div>
-        <v-card class="package-item" :loading="cardLoading" elevation="2" @click.stop="showInfo(name, version)">
+    <div class="card-wrap">
+        <v-card 
+            class="package-item" 
+            :loading="cardLoading" 
+            elevation="2" 
+            @click.stop="showInfo(packageName, packageVersion)"
+        >
             <template slot="progress">
                 <v-progress-linear
                     color="#9b59b6"
@@ -9,70 +14,39 @@
             </template>
 
             <v-card-title>
-                <span>{{ name }}</span> 
+                <span>{{ packageName }}</span> 
                 <v-chip
                     class="version"
                     label
                     outlined
-                >{{ version }}</v-chip>
+                >{{ packageVersion }}</v-chip>
             </v-card-title>
             <v-card-text>
-                {{ description }}
+                {{ packageDescription }}
             </v-card-text>
         </v-card>
 
-        <v-dialog
-            v-model="dialog"
-            max-width="960"
-        >
-            <v-card>
-                <v-card-title class="headline">
-                    <span>{{name}}</span> 
-                    <v-chip 
-                        class="version"
-                        label
-                        outlined
-                    >{{ version }}</v-chip>
-                </v-card-title>
-
-                <v-card-text>
-                    <div class="mb-5">
-                        {{ description }}
-                    </div>
-                    <div class="mb-5" v-if="packageStats">
-                        <span class="block-title">Package Usage: </span>
-                        <span>{{ packageStats.total }}</span>
-                    </div>
-                    <files-list v-if="packageFiles" :files="packageFiles.files"/>
-                </v-card-text>
-
-                <v-card-actions>
-                    <v-spacer />
-                    <v-btn
-                        color="#9b59b6"
-                        text
-                        @click="dialog = false"
-                    >
-                        close
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+        <modal :value="dialog" @close="dialog = false">
+            <package-info-card 
+                v-if="packageFiles && packageStats"
+                :packageInfo="packageInfo" 
+            />
+        </modal>
     </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
-import FilesList from './FilesList.vue';
+import Modal from './Modal.vue';
+import PackageInfoCard from './PackageInfoCard.vue';
 
 export default {
-  components: { FilesList },
+  components: { Modal, PackageInfoCard },
     name: "PackageItem",
     props: {
-        name: String,
-        version: String,
-        description: String
-        
+        packageName: String,
+        packageVersion: String,
+        packageDescription: String
     },
     data() {
         return {
@@ -81,6 +55,17 @@ export default {
             packageStats: null,
             packageFiles: null,
             cardLoading: false,
+        }
+    },
+    computed: {
+        packageInfo() {
+            return {
+                packageName: this.packageName, 
+                packageDescription: this.packageDescription,
+                packageVersion: this.packageVersion,
+                packageFiles: this.packageFiles.files, 
+                totalUsage: this.packageStats.total, 
+            }
         }
     },
     methods: {
@@ -110,15 +95,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .v-chip.v-size--default {
-        font-size: 12px;
-        height: 22px;
-        margin: 0 5px;
+    .card-wrap, 
+    .v-card {
+        height: 100%;
     }
-
-    .file-list {
-        border: #e5e5e5 1px solid;
-        list-style: none;
-        padding: 10px;
-    }
+    
 </style>

@@ -30,14 +30,24 @@ export default {
 
 <style lang="scss">
   .theme--light.v-application {
-      background: #9b59b626!important;
+    background: #9b59b626!important;
+
+    .theme-max-width {
+      max-width: 960px;
+
+      .github-link {
+        font-size: 15px;
+      }
+      
+      .v-chip.v-size--default {
+        font-size: 12px;
+        height: 22px;
+        margin: 0 5px;
+      }
+    }
   }
 
-  .theme-max-width {
-    max-width: 960px;
-  }
+  
 
-  .github-link {
-    font-size: 15px;
-  }
+  
 </style>

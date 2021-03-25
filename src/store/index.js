@@ -6,12 +6,30 @@ import axios from 'axios';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
+  state: {
+    showPreloader: false
+  },
 
-  mutations: {},
+  getters: {
+    getPreloaderState(state) {
+      return state.showPreloader;
+    }
+  },
+
+  mutations: {
+    setPreloaderState(state, preloaderState) {
+      state.showPreloader = preloaderState;
+    }
+  },
 
   actions: {
-    async request(context, { method = "GET", url = "", headers, body, params }) {
+    async request(context, {
+      method = "GET",
+      url = "",
+      headers,
+      body,
+      params
+    }) {
       const req = {
         method,
         url,
@@ -19,7 +37,7 @@ export default new Vuex.Store({
         params,
         headers,
       };
-  
+
       async function callback() {
         try {
           const res = await axios(req);
@@ -28,7 +46,7 @@ export default new Vuex.Store({
           console.error(e);
         }
       }
-  
+
       const res = await callback.call(this);
       return res;
     }

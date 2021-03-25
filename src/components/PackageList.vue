@@ -1,18 +1,19 @@
 <template>
         <v-container fluid class="theme-max-width">
             <v-row v-if="getPackages">
-                <v-col cols="12" v-for="item in getPackages.objects" :key="item.name">
+                <v-col md="6" cols="12" v-for="item in getPackages.objects" :key="item.name">
                     <package-item 
-                        :name="item.package.name"
-                        :version="item.package.version"
-                        :description="item.package.description"
+                        :packageName="item.package.name"
+                        :packageVersion="item.package.version"
+                        :packageDescription="item.package.description"
                     />
                 </v-col>
             </v-row>
 
-            <v-row v-if="showPreloader" >
+            <v-row v-if="getPreloaderState" >
                 <v-col class="d-flex justify-center">
                     <v-progress-circular 
+                        v-if="getPreloaderState"
                         color="#9b59b6" 
                         indeterminate
                     />
@@ -31,7 +32,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 import PackageItem from './PackageItem';
 
 export default {
@@ -40,19 +41,24 @@ export default {
         PackageItem
     },
     data: () => ({
-        showPreloader: false,
         currentPage: 1
     }),
 
     methods: {
         ...mapActions({
             searchPackage: 'api/searchPackage'
+        }),
+
+        ...mapMutations({
+            setPreloaderState: 'setPreloaderState',
         })
+
     },
 
     computed: {
         ...mapGetters({
-            getPackages: 'api/getPackages'
+            getPackages: 'api/getPackages',
+            getPreloaderState: 'getPreloaderState'
         }),
 
         getPagesCount() {
@@ -65,7 +71,15 @@ export default {
             this.searchPackage({
                 currentPage: this.currentPage
             });
-        }
+        },
+
+        getPackages(value) {
+            if (value) {
+                this.setPreloaderState(false);
+            } else {
+                this.setPreloaderState(true);
+            }
+        },
     }
 }
 </script>

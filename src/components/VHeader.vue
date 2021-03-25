@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapMutations } from 'vuex';
 
 export default {
     name: 'VHeader',
@@ -25,16 +25,22 @@ export default {
         search: '',
     }),
     methods: {
-        updateValue(value) {
-            console.log(value);
-            this.$emit('update-value', value);
-        },
+        ...mapMutations({
+            setPreloaderState: 'setPreloaderState',
+        }),
 
         ...mapActions({
             searchPackage: 'api/searchPackage',
-            request: 'request'
-            }),
+            request: 'request',
+        }),
+
+        updateValue(value) {
+            this.$emit('update-value', value);
+        },
+
         sendSearchQuery() {
+            this.setPreloaderState(true);
+
             this.searchPackage({
                 query: this.search
             });

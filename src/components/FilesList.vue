@@ -54,4 +54,10 @@ export default {
     .file-list {
         border: thin solid rgba(0, 0, 0, 0.12);
     }
+
+    .file-list {
+        border: #e5e5e5 1px solid;
+        list-style: none;
+        padding: 10px;
+    }
 </style>
