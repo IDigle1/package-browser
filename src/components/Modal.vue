@@ -28,9 +28,11 @@ export default {
     props: {
         value: Boolean
     },
-    data: () => ({
-        dialog: false
-    }),
+    data() {
+        return {
+            dialog: false
+        }
+    },
     watch: {
         value(newVal) {
             this.dialog = newVal;

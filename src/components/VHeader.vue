@@ -21,9 +21,11 @@ import { mapActions, mapMutations } from 'vuex';
 
 export default {
     name: 'VHeader',
-    data: () => ({
-        search: '',
-    }),
+    data() {
+        return {
+            search: '',
+        }
+    },
     methods: {
         ...mapMutations({
             setPreloaderState: 'setPreloaderState',

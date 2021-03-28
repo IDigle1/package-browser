@@ -17,11 +17,13 @@
 <script>
 export default {
     name: 'UserCard',
-    data: () => ({
-        name: 'Evgeny Falaleev',
-        avatarImageLink: 'https://hsto.org/getpro/moikrug/uploads/user/100/045/068/3/avatar/medium_0a1f9d108ffbfe97f221f6c74418a166.jpg',
-        linkText: 'github.com/IDigle1/package-browser',
-        githubLink: 'https://github.com/IDigle1/package-browser'
-    })
+    data() {
+        return {
+            name: 'Evgeny Falaleev',
+            avatarImageLink: 'https://hsto.org/getpro/moikrug/uploads/user/100/045/068/3/avatar/medium_0a1f9d108ffbfe97f221f6c74418a166.jpg',
+            linkText: 'github.com/IDigle1/package-browser',
+            githubLink: 'https://github.com/IDigle1/package-browser'
+        }
+    }
 }
 </script>

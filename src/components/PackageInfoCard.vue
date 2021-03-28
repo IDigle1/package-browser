@@ -36,7 +36,7 @@ export default {
             type: Object,
             packageDescription: String,
             packageFiles: Array, 
-            totalUsage: Number | String, 
+            totalUsage: Number || String, 
             packageName: String, 
             packageVersion: String
         }

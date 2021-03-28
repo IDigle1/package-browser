@@ -40,9 +40,11 @@ export default {
     components: {
         PackageItem
     },
-    data: () => ({
-        currentPage: 1
-    }),
+    data() {
+        return {
+            currentPage: 1
+        }
+    },
 
     methods: {
         ...mapActions({
